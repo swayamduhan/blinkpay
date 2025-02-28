@@ -4,8 +4,11 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// add friends / saved contacts logic after payment setup
+
 generator client {
   provider = "prisma-client-js"
+  output = "../generated/client"
 }
 
 datasource db {
@@ -13,6 +16,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TransactionStatus {
+  PROCESSING
+  FAILED
+  SUCCESS
+}
+
+enum BankOperation {
+  TOPUP
+  WITHDRAWAL
+}
 
 model User {
   id Int @id @default(autoincrement())
@@ -20,4 +33,49 @@ model User {
   email String @unique
   password String
   phone String? @unique
+  emailVerified Boolean @default(false)
+  createdAt DateTime @default(now())
+  wallet Wallet?
+  magicToken MagicLinkToken?
+  BankTxns BankTransaction[]
+  sentTxns P2PTransaction[] @relation(name: "senderRelation")
+  receiveTxns P2PTransaction[] @relation(name: "receiverRelation")
 }
+
+model BankTransaction {
+  id BigInt @id @default(autoincrement())
+  userId Int
+  token String?
+  provider String
+  operationType BankOperation
+  amount Decimal @default(0.00)
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
+}
+
+model P2PTransaction {
+  id BigInt @id @default(autoincrement())
+  senderId Int
+  receiverId Int
+  amount Decimal @default(0.00)
+  senderUser User @relation(name: "senderRelation", fields: [senderId], references: [id])
+  receiverUser User @relation(name: "receiverRelation", fields: [receiverId], references: [id])
+}
+
+model Wallet {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  balance Decimal @default(0.00)
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id])
+}
+
+
+model MagicLinkToken {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  token String @unique
+  expiresAt DateTime
+  user User @relation(fields: [userId], references: [id])
+}
+

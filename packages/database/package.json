@@ -1,4 +1,12 @@
 {
   "name": "@blinkpay/db",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  } 
 }
