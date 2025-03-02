@@ -15,66 +15,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum TransactionStatus {
+enum transaction_status {
   PROCESSING
   FAILED
   SUCCESS
 }
 
-enum BankOperation {
+enum bank_operation {
   TOPUP
   WITHDRAWAL
 }
 
-model User {
+model users {
   id Int @id @default(autoincrement())
   name String
   email String @unique
   password String
   phone String? @unique
-  emailVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  wallet Wallet?
-  magicToken MagicLinkToken?
-  BankTxns BankTransaction[]
-  sentTxns P2PTransaction[] @relation(name: "senderRelation")
-  receiveTxns P2PTransaction[] @relation(name: "receiverRelation")
+  email_verified Boolean @default(false)
+  created_at DateTime @default(now())
+  wallet wallets?
+  magic_token magic_links?
+  bank_txns bank_transactions[]
+  sent_txns p2p_transactions[] @relation(name: "senderRelation")
+  receive_txns p2p_transactions[] @relation(name: "receiverRelation")
 }
 
-model BankTransaction {
+model bank_transactions {
   id BigInt @id @default(autoincrement())
-  userId Int
-  token String?
-  provider String
-  operationType BankOperation
-  amount Decimal @default(0.00)
-  createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id])
-}
-
-model P2PTransaction {
-  id BigInt @id @default(autoincrement())
-  senderId Int
-  receiverId Int
-  amount Decimal @default(0.00)
-  senderUser User @relation(name: "senderRelation", fields: [senderId], references: [id])
-  receiverUser User @relation(name: "receiverRelation", fields: [receiverId], references: [id])
-}
-
-model Wallet {
-  id Int @id @default(autoincrement())
-  userId Int @unique
-  balance Decimal @default(0.00)
-  updatedAt DateTime @updatedAt
-  user User @relation(fields: [userId], references: [id])
-}
-
-
-model MagicLinkToken {
-  id Int @id @default(autoincrement())
-  userId Int @unique
+  user_id Int
   token String @unique
-  expiresAt DateTime
-  user User @relation(fields: [userId], references: [id])
+  provider String
+  operation_type bank_operation
+  amount Decimal @default(0.00)
+  status transaction_status @default(PROCESSING)
+  created_at DateTime @default(now())
+  user users @relation(fields: [user_id], references: [id])
+}
+
+model p2p_transactions {
+  id BigInt @id @default(autoincrement())
+  sender_id Int
+  receiver_id Int
+  amount Decimal @default(0.00)
+  sender_user users @relation(name: "senderRelation", fields: [sender_id], references: [id])
+  receiver_user users @relation(name: "receiverRelation", fields: [receiver_id], references: [id])
+}
+
+model wallets {
+  id Int @id @default(autoincrement())
+  user_id Int @unique
+  balance Decimal @default(0.00)
+  updated_at DateTime @updatedAt
+  user users @relation(fields: [user_id], references: [id])
+}
+
+
+model magic_links {
+  id Int @id @default(autoincrement())
+  user_id Int @unique
+  token String @unique
+  expires_at DateTime
+  user users @relation(fields: [user_id], references: [id])
 }
 
