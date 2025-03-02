@@ -7,7 +7,33 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
+
+const addToWallet = `-- name: AddToWallet :one
+UPDATE wallets 
+SET balance = balance + $1
+WHERE user_id = $2
+RETURNING id, user_id, balance, updated_at
+`
+
+type AddToWalletParams struct {
+	Balance pgtype.Numeric
+	UserID  int32
+}
+
+func (q *Queries) AddToWallet(ctx context.Context, arg AddToWalletParams) (Wallet, error) {
+	row := q.db.QueryRow(ctx, addToWallet, arg.Balance, arg.UserID)
+	var i Wallet
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.Balance,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
 
 const getTransactionByToken = `-- name: GetTransactionByToken :one
 SELECT id, user_id, token, provider, operation_type, amount, status, created_at FROM bank_transactions
@@ -32,8 +58,8 @@ func (q *Queries) GetTransactionByToken(ctx context.Context, token string) (Bank
 
 const updateTransaction = `-- name: UpdateTransaction :one
 UPDATE bank_transactions
-SET status=$1
-WHERE token=$2
+SET status = $1
+WHERE token = $2 AND status = 'PROCESSING'
 RETURNING id, user_id, token, provider, operation_type, amount, status, created_at
 `
 
