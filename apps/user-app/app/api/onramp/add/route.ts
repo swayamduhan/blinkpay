@@ -20,13 +20,13 @@ export async function POST(req : NextRequest){
     const body : OnRampAddParams = await req.json()
 
     try {
-        const txn = await prisma.bankTransaction.create({
+        const txn = await prisma.bank_transactions.create({
             data : {
-                userId : body.userId,
+                user_id : body.userId,
                 token : body.token, 
                 amount : body.amount / 100,
                 provider : body.provider,
-                operationType : "TOPUP"
+                operation_type : "TOPUP"
             }
         })
 

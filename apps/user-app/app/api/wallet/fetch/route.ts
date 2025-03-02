@@ -11,9 +11,9 @@ export async function GET(req : NextRequest) : Promise<NextResponse> {
     const userId = parseInt(uid)
 
     try {
-        const wallet = await prisma.wallet.findUnique({
+        const wallet = await prisma.wallets.findUnique({
             where : { 
-                userId : userId
+                user_id : userId
             }
         })
     
@@ -23,7 +23,7 @@ export async function GET(req : NextRequest) : Promise<NextResponse> {
 
         return NextResponse.json({ message : "wallet fetched!", wallet : {
             balance : wallet.balance,
-            userId : wallet.userId
+            userId : wallet.user_id
         }})
 
     } catch ( err ){
