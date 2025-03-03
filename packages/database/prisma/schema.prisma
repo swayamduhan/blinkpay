@@ -78,4 +78,3 @@ model magic_links {
   expires_at DateTime
   user users @relation(fields: [user_id], references: [id])
 }
-

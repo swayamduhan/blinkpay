@@ -7,3 +7,4 @@ gets updates from bank regarding transaction status and updates in SQL database
 
 ## Todo:
 - add a SSE server to send real time updates to client regarding their payment
+- test if the pgtype.Numeric conversion is working correctly

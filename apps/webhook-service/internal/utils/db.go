@@ -40,5 +40,5 @@ func Ping(dbpool *pgxpool.Pool){
 		return
 	}
 
-	fmt.Println("Ping successful")
+	fmt.Println("DB ping successful :)")
 }
