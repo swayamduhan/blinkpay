@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+
+service TransactionService {
+    rpc AddTxnToQueue(AddTransactionRequest) returns (AddTransactionResponse);
+}
+
+
+message AddTransactionRequest {
+    string token = 1;
+    string success = 2;
+}
+
+message AddTransactionResponse {
+    string response = 1;
+}
+
+//  gRPC protobuf declaration
