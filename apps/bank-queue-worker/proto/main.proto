@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+package proto;
+
+option go_package = "bank-queue-worker/proto";
 
 service TransactionService {
     rpc AddTxnToQueue(AddTransactionRequest) returns (AddTransactionResponse);
