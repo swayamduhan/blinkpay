@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	// "time"
 
 	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
@@ -22,12 +23,20 @@ var (
 type Transaction struct {
 	Token string `json:"token"`
 	Success bool `json:"success"`
+	Type string `json:"type"`
+	Amount string `json:"amount"`
 }
 
 type server struct {
 	pb.UnimplementedTransactionServiceServer
 	redisClient *redis.Client
 }
+
+// type QueueElement struct {
+// 	txn Transaction
+// 	retries int
+// 	delay time.Time
+// }
 
 func (s *server) AddTxnToQueue(ctx context.Context, in *pb.AddTransactionRequest) (*pb.AddTransactionResponse, error) {
 	if in.GetToken() == "" {
@@ -38,6 +47,8 @@ func (s *server) AddTxnToQueue(ctx context.Context, in *pb.AddTransactionRequest
 	txn := Transaction{
 		Token: in.GetToken(),
 		Success: in.GetSuccess(),
+		Type: in.GetType(),
+		Amount: in.GetAmount(),
 	}
 
 	jsonString, err := json.Marshal(txn)
@@ -52,7 +63,7 @@ func (s *server) AddTxnToQueue(ctx context.Context, in *pb.AddTransactionRequest
 
 	log.Printf("transaction added: %s", string(jsonString))
 	
-	return &pb.AddTransactionResponse{Response: "Transaction added!"}, nil
+	return &pb.AddTransactionResponse{Response: "Transaction added to queue!"}, nil
 }
 
 func InitGrpcServer(client *redis.Client) {

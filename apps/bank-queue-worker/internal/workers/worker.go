@@ -2,13 +2,25 @@ package workers
 
 import (
 	"bank-queue-worker/internal/server"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
+
+type UpdateTxnModel struct {
+	Type string `json:"type"`
+	Token string `json:"token"`
+	Status string `json:"status"`
+	Amount string `json:"amount"`
+}
+
 
 // function:
 // brpop from redis queue and then push to webhook server
@@ -26,22 +38,67 @@ func StartWorker(client *redis.Client){
 		}
 
 		// success := processTask(msg)
-		var txn server.Transaction
-		err = json.Unmarshal([]byte(msg[1]), &txn)
-		if err != nil {
-			log.Printf("error unmarshalling json string from queue: %v\n", err)
+
+
+		success := processTask(ctx, msg[1], client)
+		if !success {
+			fmt.Println("error processing task, handled it!")
 			continue
 		}
-
-		success := processTask(txn)
-		fmt.Println(success)
-		// if not success, push back to queue
+		// if not success, push back to queue, handle retry logic using time properly now
 	}
 }
 
-func processTask(txn server.Transaction) bool {
+func processTask(ctx context.Context, txnString string, client *redis.Client) bool {
 	// do a request to bank webhook to add
 	// if error return false and handle retry
-	fmt.Println("task done")
+	var txn server.Transaction
+	err := json.Unmarshal([]byte(txnString), &txn)
+	if err != nil {
+		log.Printf("error unmarshalling json string from queue: %v\n", err)
+		return false
+	}
+
+	err = sendRequestToWebhook(txn)
+	if err != nil {
+		// push back to queue
+		fmt.Println("error sending request, pushing back to queue")
+		time.Sleep(2*time.Second) // fake delay to mock
+		client.LPush(ctx,"webhook", txnString)
+	}
+
 	return true
+}
+
+
+
+func sendRequestToWebhook(txn server.Transaction) error {
+	status := "FAILED"
+	if txn.Success {
+		status = "SUCCESS"
+	}
+	txnStruct := UpdateTxnModel{
+		Type: txn.Type,
+		Token: txn.Token,
+		Status: status,
+		Amount: txn.Amount,
+	}
+
+	jsonData, err := json.Marshal(txnStruct)
+	if err != nil {
+		fmt.Println("error while marshalling json: ", err)
+		return err
+	}
+
+	resp, err := http.Post("http://localhost:8080/update-server", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+	return nil
 }

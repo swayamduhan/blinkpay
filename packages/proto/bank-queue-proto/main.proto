@@ -12,6 +12,8 @@ service TransactionService {
 message AddTransactionRequest {
     string token = 1;
     bool success = 2;
+    string type = 3;
+    string amount = 4;
 }
 
 message AddTransactionResponse {
