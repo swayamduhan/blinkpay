@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "bank-queue-worker/proto";
+
+service TransactionService {
+    rpc AddTxnToQueue(AddTransactionRequest) returns (AddTransactionResponse);
+}
+
+
+message AddTransactionRequest {
+    string token = 1;
+    bool success = 2;
+}
+
+message AddTransactionResponse {
+    string response = 1;
+}
+
+service SayHelloService{
+    rpc SayHello(HelloRequest) returns (HelloReply);
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string reply = 1;
+}
+
+//  gRPC protobuf declaration
