@@ -26,19 +26,25 @@ enum bank_operation {
   WITHDRAWAL
 }
 
-model users {
+model User {
   id Int @id @default(autoincrement())
   name String
   email String @unique
-  password String
+  password String? // optional because of OAuth
   phone String? @unique
-  email_verified Boolean @default(false)
-  created_at DateTime @default(now())
+  image String?
+  emailVerified DateTime? @map("email_verified")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   wallet wallets?
   magic_token magic_links?
   bank_txns bank_transactions[]
   sent_txns p2p_transactions[] @relation(name: "senderRelation")
   receive_txns p2p_transactions[] @relation(name: "receiverRelation")
+  accounts Account[]
+  sessions Session[]
+
+  @@map("users")
 }
 
 model bank_transactions {
@@ -50,7 +56,7 @@ model bank_transactions {
   amount Decimal @default(0.00)
   status transaction_status @default(PROCESSING)
   created_at DateTime @default(now())
-  user users @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 }
 
 model p2p_transactions {
@@ -58,8 +64,8 @@ model p2p_transactions {
   sender_id Int
   receiver_id Int
   amount Decimal @default(0.00)
-  sender_user users @relation(name: "senderRelation", fields: [sender_id], references: [id])
-  receiver_user users @relation(name: "receiverRelation", fields: [receiver_id], references: [id])
+  sender_user User @relation(name: "senderRelation", fields: [sender_id], references: [id])
+  receiver_user User @relation(name: "receiverRelation", fields: [receiver_id], references: [id])
 }
 
 model wallets {
@@ -67,14 +73,56 @@ model wallets {
   user_id Int @unique
   balance Decimal @default(0.00)
   updated_at DateTime @updatedAt
-  user users @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 }
-
 
 model magic_links {
   id Int @id @default(autoincrement())
   user_id Int @unique
   token String @unique
   expires_at DateTime
-  user users @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Account {
+  userId            Int  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+  @@map("account")
+}
+
+model Session {
+  sessionToken String   @unique @map("session_token")
+  userId       Int @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("session")
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+  @@map("verification_token")
 }
