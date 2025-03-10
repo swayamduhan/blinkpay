@@ -96,6 +96,22 @@ func (ns NullTransactionStatus) Value() (driver.Value, error) {
 	return string(ns.TransactionStatus), nil
 }
 
+type Account struct {
+	UserID            int32
+	Type              string
+	Provider          string
+	ProviderAccountID string
+	RefreshToken      pgtype.Text
+	AccessToken       pgtype.Text
+	ExpiresAt         pgtype.Int4
+	TokenType         pgtype.Text
+	Scope             pgtype.Text
+	IDToken           pgtype.Text
+	SessionState      pgtype.Text
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+}
+
 type BankTransaction struct {
 	ID            int64
 	UserID        int32
@@ -121,14 +137,30 @@ type P2pTransaction struct {
 	Amount     pgtype.Numeric
 }
 
+type Session struct {
+	SessionToken string
+	UserID       int32
+	Expires      pgtype.Timestamp
+	CreatedAt    pgtype.Timestamp
+	UpdatedAt    pgtype.Timestamp
+}
+
 type User struct {
 	ID            int32
 	Name          string
 	Email         string
-	Password      string
+	Password      pgtype.Text
 	Phone         pgtype.Text
-	EmailVerified bool
 	CreatedAt     pgtype.Timestamp
+	Image         pgtype.Text
+	UpdatedAt     pgtype.Timestamp
+	EmailVerified pgtype.Timestamp
+}
+
+type VerificationToken struct {
+	Identifier string
+	Token      string
+	Expires    pgtype.Timestamp
 }
 
 type Wallet struct {
