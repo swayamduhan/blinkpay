@@ -1,5 +1,6 @@
 "use client";
 
+import { curveCardinal } from "d3-shape";
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const data = [
@@ -13,8 +14,9 @@ const data = [
 ];
 
 export default function WalletBalanceChart() {
+  const cardinal = curveCardinal.tension(0.3)
   return (
-    <ResponsiveContainer width="70%" height={300}>
+    <ResponsiveContainer width="80%" height={300}>
     <AreaChart data={data} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
         <defs>
         <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
@@ -22,10 +24,11 @@ export default function WalletBalanceChart() {
             <stop offset="100%" stopColor="#4f46e5" stopOpacity={0} />
         </linearGradient>
         </defs>
-        <Area type="monotone" dataKey="balance" stroke="#4f46e5" strokeWidth={3} fill="url(#balanceGradient)" />
-        <CartesianGrid stroke="#ddd" strokeDasharray="3 3" horizontal={true} vertical={false} />
-        <XAxis dataKey="name" tick={{ fill: "#888" }} />
-        <YAxis tick={{ fill: "#888" }} />
+        <Area type="monotone" dataKey="balance" stroke="#4f46e5" strokeWidth={1} fill="url(#balanceGradient)" />
+        <Area type={cardinal} dataKey="balance" stroke="#4f46e5" strokeWidth={1} fill="url(#balanceGradient)"/>
+        {/* <CartesianGrid stroke="#ddd" strokeDasharray="3 3" horizontal={true} vertical={false} /> */}
+        <XAxis dataKey="name" tick={{ fill: "#888", fontSize: "12px" }}/>
+        <YAxis tick={{ fill: "#888", fontSize: "12px" }}/>
         <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "4px", color: "#000" }} />
     </AreaChart>
     </ResponsiveContainer>
