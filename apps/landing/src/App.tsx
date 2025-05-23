@@ -7,6 +7,9 @@ import { useRef } from 'react'
 import { SplitText } from 'gsap/SplitText'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
+import FAQSection from './components/FAQSection'
+import GetStarted from './components/GetStarted'
+import Footer from './components/Footer'
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
 
@@ -21,9 +24,12 @@ function App() {
         <div className='max-w-[2000px] overflow-hidden w-full h-full'>
           <HeroSection />
           <WhySection />
-          <div className='h-[200vh]'></div>
+          <GetStarted />
+          <FAQSection />
+          <Footer />
         </div>
       </div>
+      <div className='fixed inset-0 z-10 pointer-events-none bg-[url(./assets/008.webp)] mix-blend-multiply opacity-100 bg-repeat bg-[length:1000px_1000px]'></div>
     </div>
   )
 }

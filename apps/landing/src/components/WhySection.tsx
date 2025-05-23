@@ -127,7 +127,7 @@ export default function WhySection(){
 
     return (
         <div ref={container} id="why-blinkpay">
-            <section className="min-h-screen">
+            <section className="min-h-screen mb-20">
                 <div id="why-wrapper" className="p-10 pt-20 space-y-20">
                     <div className="text-2xl text-right border-b pb-10">
                         Why BlinkPay?
