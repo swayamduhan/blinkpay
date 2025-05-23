@@ -4,10 +4,11 @@
   font-family: Montreal, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.87);
+  color: #0e0e0e;
   background-color: var(--color-pastel-100);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  user-select: none;
 }
 
 body {

@@ -1,10 +1,10 @@
 import { useGSAP } from "@gsap/react";
-import { ArrowTopRight } from "./ArrowTopRight";
 import { Navbar } from "./Navbar";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useRef } from "react";
 import HeroButton from "./HeroButton";
+
 
 export function HeroSection() {
     const heroTextRef = useRef<HTMLDivElement>(null)
