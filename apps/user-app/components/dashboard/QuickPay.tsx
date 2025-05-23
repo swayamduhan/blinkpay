@@ -8,19 +8,19 @@ export function QuickPayTile(){
             name: "swayam"
         },        {
             avatar: undefined,
-            name: "cheems"
+            name: "no$"
         },        {
             avatar: undefined,
-            name: "muuku"
+            name: "richkid"
         },        {
             avatar: undefined,
-            name: "dawg"
+            name: "jake"
         },        {
             avatar: undefined,
-            name: "fawg"
+            name: "colon"
         },        {
             avatar: undefined,
-            name: "bigmoney"
+            name: "kai"
         }
     ]
 

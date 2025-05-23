@@ -3,7 +3,7 @@ import { ArrowTopRight } from "./ArrowTopRight";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-export default function HeroButton(){
+export default function HeroButton({ text, accent }: { text: string, accent: string }){
     const buttonContainerRef = useRef<HTMLButtonElement>(null)
     const arrowRef = useRef<HTMLDivElement>(null)
     const tl = useRef<GSAPTimeline>(null)
@@ -38,8 +38,8 @@ export default function HeroButton(){
     })
 
     return (
-        <button ref={buttonContainerRef} className="border px-3 py-2 rounded-[100px] flex items-center bg-pastel-300 space-x-2">
-            <span className="text-xl py-[2px]">Make a payment</span>
+        <button ref={buttonContainerRef} className="border px-3 py-2 rounded-[100px] flex items-center space-x-2 cursor-pointer" style={{ background: accent }}>
+            <span className="text-xl py-[2px]">{text}</span>
             <span ref={arrowRef} className="border rounded-full p-1 bg-pastel-100 w-[8px] h-[8px] rotate-[-135deg]">
                 <ArrowTopRight />
             </span>

@@ -40,17 +40,17 @@ export function RecentActivity(){
             type: "DEBIT"
         },
         {
-            name: "cheems",
+            name: "john",
             amount: "111",
             type: "CREDIT"
         },
         {
-            name: "muuku",
+            name: "yungla",
             amount: "178",
             type: "CREDIT"
         },
         {
-            name: "chicken",
+            name: "nxmedcollective",
             amount: "125",
             type: "DEBIT"
         },

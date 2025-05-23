@@ -10,14 +10,11 @@ import { ScrollSmoother } from 'gsap/ScrollSmoother'
 import FAQSection from './components/FAQSection'
 import GetStarted from './components/GetStarted'
 import Footer from './components/Footer'
+import DrawSVGPlugin from 'gsap/DrawSVGPlugin'
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin)
 
 function App() {
-  const smootherRef = useRef<ScrollSmoother>(null)
-  useGSAP(() => {
-    
-  })
   return (
     <div id='smooth-content'>
       <div className='flex flex-col items-center'>

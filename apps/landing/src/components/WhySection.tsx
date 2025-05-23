@@ -5,6 +5,7 @@ import { useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SplitText } from "gsap/SplitText"
+import SectionHeader from "./Header"
 
 /*
 ANIMATION FLOW:
@@ -129,9 +130,7 @@ export default function WhySection(){
         <div ref={container} id="why-blinkpay">
             <section className="min-h-screen mb-20">
                 <div id="why-wrapper" className="p-10 pt-20 space-y-20">
-                    <div className="text-2xl text-right border-b pb-10">
-                        Why BlinkPay?
-                    </div>
+                    <SectionHeader text="Why Blinkpay?" />
 
                     <div id="why__content" className="mt-[20vh] relative">
                         <WhyCard cards={cards}/>
@@ -168,8 +167,7 @@ function WhyCard({ cards }: { cards: Card[] }){
             </div>
             <div className="col-span-1 text-6xl relative leading-[65px]">
                 {cards.map((card, idx) => {
-                    if(idx != 0) return <div id={`text-${idx+1}`} className="absolute">{card.description}</div>
-                    return <div id={`text-${idx+1}`} className="absolute">{card.description}</div>
+                    return <div id={`text-${idx+1}`} className="absolute -space-y-2">{card.description}</div>
                 })}
             </div>
         </div>

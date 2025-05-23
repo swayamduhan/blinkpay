@@ -53,3 +53,7 @@ body {
   --color-pastel-100: #F4EEFF;
   --color-pastel-300: #CAAEFF;
 }
+
+ellipse {
+  will-change: transform;
+}

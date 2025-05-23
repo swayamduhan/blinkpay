@@ -7,7 +7,7 @@ export function Navbar(){
             <div className="text-5xl font-instrument">
                 BlinkPay
             </div>
-            <div>
+            <div className="nav-star">
                 <img src={StarImage} width={40}/>
             </div>
             <div className="flex gap-20 [&>div]:cursor-pointer">
@@ -18,7 +18,7 @@ export function Navbar(){
                 <NavItem>Blinkpay for Business</NavItem>
                 <NavItem>Contact</NavItem>
                 <NavItem>Signup</NavItem>
-                <div>Menu</div>
+                <div className="nav-item">Menu</div>
             </div>
         </div>
     )
