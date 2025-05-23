@@ -3,7 +3,7 @@ import { ArrowTopRight } from "./ArrowTopRight";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 
-export function NavItem({ children }: { children: React.ReactNode}){
+export function NavItem({ children, onClick }: { children: React.ReactNode, onClick? : () => void }){
     const arrowRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
     const tl = useRef<GSAPTimeline>(null)
@@ -40,7 +40,7 @@ export function NavItem({ children }: { children: React.ReactNode}){
     }, [])
 
     return (
-        <div className="relative" ref={containerRef}>
+        <div className="relative" ref={containerRef} onClick={onClick ? onClick: (() => {})}>
             <div className="absolute w-4 h-4 -right-5 top-0 -translate-x-[10px] translate-y-[5px] opacity-0" ref={arrowRef}>
                 <ArrowTopRight />
             </div>

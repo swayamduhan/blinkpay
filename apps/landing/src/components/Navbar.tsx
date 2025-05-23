@@ -11,7 +11,9 @@ export function Navbar(){
                 <img src={StarImage} width={40}/>
             </div>
             <div className="flex gap-20 [&>div]:cursor-pointer">
-                <NavItem>About</NavItem>
+                <a href="#why-blinkpay">
+                    <NavItem>About</NavItem>    
+                </a>
                 <NavItem>Services</NavItem>
                 <NavItem>Blinkpay for Business</NavItem>
                 <NavItem>Contact</NavItem>

@@ -8,7 +8,6 @@ import HeroButton from "./HeroButton";
 
 export function HeroSection() {
     const heroTextRef = useRef<HTMLDivElement>(null)
-    // const splitText = useRef<SplitText>(null)
 
     useGSAP(() => {
         gsap.registerPlugin(SplitText)
@@ -18,7 +17,7 @@ export function HeroSection() {
             mask: "lines",
             onSplit: (self) => {
                 split = gsap.from(self.lines, {
-                    duration: 1,
+                    duration: 1.3,
                     ease: "power4.out",
                     yPercent: 100,
                     opacity: 0,
