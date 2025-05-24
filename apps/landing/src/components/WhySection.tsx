@@ -62,7 +62,7 @@ export default function WhySection(){
 
         let splitArray : SplitText[] = Array.from({ length: cards.length - 1})
         // split text for all
-        cards.forEach((card, idx) => {
+        cards.forEach((_, idx) => {
             splitArray[idx] = SplitText.create(`#text-${idx+1}`, {
                 type: "lines, words",
                 mask: "lines"
@@ -70,7 +70,7 @@ export default function WhySection(){
         })
 
         // make mini timelines
-        cards.forEach((card, idx) => {
+        cards.forEach((_, idx) => {
 
             // if not first card, set all text hidden in mask
             if(idx != 0){
@@ -83,11 +83,7 @@ export default function WhySection(){
                 opacity: 0.15
             })
 
-            const localTimeline = gsap.timeline({
-                onComplete: () => {
-                    console.log("a local timeline was completed")
-                }
-            })
+            const localTimeline = gsap.timeline()
 
             // if not last card
             if(idx != cards.length - 1){

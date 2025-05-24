@@ -17,7 +17,7 @@ export default function AnimatedSVG(){
     <defs
      id="defs1">
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="2" dy="2" stdDeviation="10" flood-color="black" flood-opacity="1"/>
+      <feDropShadow dx="2" dy="2" stdDeviation="10" floodColor="black" floodOpacity="1"/>
     </filter>
     </defs><g
      id="layer1"

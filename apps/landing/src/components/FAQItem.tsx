@@ -1,0 +1,17 @@
+import { ArrowTopRight } from "./ArrowTopRight";
+
+export default function FAQItem({ title, hoverText }: { title: string, hoverText: string }){
+    return (
+        <div className="relative rounded-3xl p-6 pr-12 text-xl text-pastel-100 bg-[#222222] group faq-item">
+            <div className="opacity-75 title-text">
+                {title}
+            </div>
+            <div className="h-8 w-8 absolute right-6 top-6 group-hover:rotate-[45deg] duration-300 transition-all">
+                <ArrowTopRight />
+            </div>
+            <div className="text-2xl hover-text">
+                {hoverText}
+            </div>
+        </div>
+    )
+}

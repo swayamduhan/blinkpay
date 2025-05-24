@@ -50,7 +50,7 @@ export function HeroSection() {
             opacity: 0
         }, "-=0.5")
         .from(split.lines, {
-            duration: 1.3,
+            duration: 1,
             ease: "power3.out",
             yPercent: 100,
             opacity: 0,

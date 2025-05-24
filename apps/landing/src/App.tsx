@@ -1,9 +1,7 @@
-import { useGSAP } from '@gsap/react'
 import './App.css'
 import { HeroSection } from './components/HeroSection'
 import WhySection from './components/WhySection'
 import gsap from 'gsap'
-import { useRef } from 'react'
 import { SplitText } from 'gsap/SplitText'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
@@ -19,10 +17,12 @@ function App() {
     <div id='smooth-content'>
       <div className='flex flex-col items-center'>
         <div className='max-w-[2000px] overflow-hidden w-full h-full'>
-          <HeroSection />
-          <WhySection />
-          <GetStarted />
-          <FAQSection />
+          <div className='bg-pastel-100 relative z-[1]'>
+            <HeroSection />
+            <WhySection />
+            <GetStarted />
+            <FAQSection />
+          </div>
           <Footer />
         </div>
       </div>
