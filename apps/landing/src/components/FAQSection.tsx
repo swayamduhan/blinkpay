@@ -82,7 +82,7 @@ export default function FAQSection(){
         }, "<")
         .to(".rect", {
             fill: "var(--color-pastel-100)"
-        })
+        }, "-=1")
         .to(".conn", {
             fill: "var(--color-pastel-300)",
             duration: 0.3
@@ -95,7 +95,7 @@ export default function FAQSection(){
             filter: "blur(0px)",
             opacity: 1,
             duration: 1
-        }, "-=0.5")
+        }, "-=1")
         .fromTo("text", {
             filter: "blur(20px)",
             opacity: 0,
