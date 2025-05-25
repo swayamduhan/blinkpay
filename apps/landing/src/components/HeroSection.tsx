@@ -94,9 +94,9 @@ export function HeroSection() {
         {/* TEXT LAYER */}
         <div className="absolute inset-0">
             <Navbar />
-            <div className="absolute bottom-[10%] left-10 max-w-[700px] space-y-8">
+            <div className="absolute bottom-[10%] left-10 max-w-[550px] lg:max-w-[700px] space-y-8">
                 <div ref={heroTextRef} className="-space-y-2">
-                    <div className="leading-[1.2] text-6xl">Lightning fast payments in a blink with <span className="text-purple-700 font-instrument italic tracking-normal">BlinkPay</span>
+                    <div className="leading-[1.2] text-5xl lg:text-6xl">Lightning fast payments in a blink with <span className="text-purple-700 font-instrument italic tracking-normal">BlinkPay</span>
                     </div>
                     <div className="text-xl text-neutral-500 mt-4">Trusted by 1Million+ customers & merchants</div>
                 </div>

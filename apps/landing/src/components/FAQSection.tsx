@@ -140,14 +140,14 @@ export default function FAQSection(){
     return (
         <div ref={FAQContainer}>
         <section className="min-h-screen pb-40" id="faq-section">
-            <div id="faq-wrapper" className="p-10 pt-20 space-y-20">
+            <div id="faq-wrapper" className="p-10 pt-20">
                 <SectionHeader text="Frequently Asked Questions"/>
             </div>
-            <div id="faq-content" className="px-10 grid grid-cols-3 gap-10">
+            <div id="faq-content" className="px-10 grid grid-cols-3 gap-6 lg:gap-10">
                 <div id="faq-svg" className="col-span-1 mt-10 h-[70vh] border rounded-3xl bg-[#222222]">
                     <AnimatedSVG />
                 </div>
-                <div id="faqs" className="col-span-2 mt-10 grid grid-cols-2 grid-rows-3 gap-5">
+                <div id="faqs" className="col-span-2 mt-10 grid grid-cols-2 grid-rows-3 gap-2 lg:gap-5">
                     {faqs.map((faq, index) => (
                         <FAQItem key={index} title={faq.title} hoverText={faq.hoverText}/>
                     ))}

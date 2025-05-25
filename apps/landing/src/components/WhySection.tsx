@@ -41,6 +41,9 @@ const cards: Card[]  = [
     }
 ]
 
+const indexLineTranslate = (window.innerHeight > 700 ? -100 : -60)
+const imageTextTranslate = (window.innerHeight > 700 ? -120 : -70)
+
 export default function WhySection(){
     const container = useRef<HTMLDivElement>(null)
 
@@ -97,10 +100,10 @@ export default function WhySection(){
                     y: -65
                 })
                 .to(".img-text-wrapper", {
-                    y: -120 * (idx+1)
+                    y: imageTextTranslate * (idx+1)
                 }, "<")
                 .to(".index-wrapper", {
-                    y: -100 * (idx+1)
+                    y: indexLineTranslate * (idx+1)
                 }, "<")
                 .to(splitArray[idx+1].lines, {
                     opacity: 1,
@@ -125,10 +128,10 @@ export default function WhySection(){
     return (
         <div ref={container} id="why-blinkpay">
             <section className="min-h-screen mb-20">
-                <div id="why-wrapper" className="p-10 pt-20 space-y-20">
+                <div id="why-wrapper" className="p-10 lg:pt-20 space-y-20">
                     <SectionHeader text="Why Blinkpay?" />
 
-                    <div id="why__content" className="mt-[20vh] relative">
+                    <div id="why__content" className="mt-20 lg:mt-[20vh] relative">
                         <WhyCard cards={cards}/>
                     </div>
                 </div>
@@ -139,17 +142,17 @@ export default function WhySection(){
 
 function WhyCard({ cards }: { cards: Card[] }){
     return (
-        <div className="grid grid-cols-3 gap-20 pin__card">
+        <div className="grid grid-cols-3 gap-10 lg:gap-20 pin__card">
             <div className="col-span-2">
                 <div className="h-[50vh] w-full rounded-4xl relative overflow-hidden">
-                    <div className="absolute font-instrument text-8xl text-pastel-100 bottom-5 right-10 z-10 h-[120px] leading-[120px] overflow-hidden">
+                    <div className="absolute font-instrument text-6xl lg:text-8xl text-pastel-100 bottom-4 right-4 lg:bottom-5 lg:right-10 z-10 h-[70px] lg:h-[120px] leading-[70px] lg:leading-[120px] overflow-hidden">
                         <div className="img-text-wrapper">
                             {cards.map(card => {
                                 return <div className="text-right">{card.imgText}</div>
                             })}
                         </div>
                     </div>
-                    <div className="z-10 text-pastel-100 absolute text-8xl top-10 left-10 h-[100px] leading-[100px] overflow-hidden">
+                    <div className="z-10 text-pastel-100 absolute text-6xl lg:text-8xl top-10 left-10 h-[60px] lg:h-[100px] leading-[60px] lg:leading-[100px] overflow-hidden">
                         <div className="index-wrapper">
                             {Array.from({ length: cards.length }).map((_, i) => (
                                 <div>{i+1}</div>
@@ -161,7 +164,7 @@ function WhyCard({ cards }: { cards: Card[] }){
                     <img src={cards[0].img} className="w-full -translate-y-[30%]"/>
                 </div>
             </div>
-            <div className="col-span-1 text-6xl relative leading-[65px]">
+            <div className="col-span-1 text-[40px] lg:text-6xl relative leading-[50px] lg:leading-[65px]">
                 {cards.map((card, idx) => {
                     return <div id={`text-${idx+1}`} className="absolute -space-y-2">{card.description}</div>
                 })}

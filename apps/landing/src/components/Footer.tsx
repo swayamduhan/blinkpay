@@ -10,15 +10,15 @@ export default function Footer(){
     const resources = ["Guides", "Customer stories", "Blog", "Licences", "Sitemap", "Cookie settings"]
     const developers = ["Documentation", "API reference", "API status", "API changelog"]
     return (
-        <footer>
-            <div className="h-[600px] pointer-events-none"></div>
-            <div className="fixed bottom-0 w-full h-[600px] bg-[#222222] z-[0] text-pastel-100">
-                <div className="p-10 grid grid-cols-2 h-[500px]">
+        <footer id="footer">
+            <div className="h-[500px] lg:h-[600px] pointer-events-none"></div>
+            <div className="fixed bottom-0 w-full h-[500px] lg:h-[600px] bg-[#222222] z-[0] text-pastel-100">
+                <div className="p-10 grid grid-cols-2 gap-10 h-[420px] lg:h-[500px]">
                     <div>
-                        <div className="text-[200px] font-instrument leading-[200px]">
+                        <div className="text-[150px] lg:text-[200px] font-instrument leading-[150px] lg:leading-[200px]">
                             BlinkPay
                         </div>
-                        <div className="text-xl opacity-65">
+                        <div className="text-lg lg:text-xl opacity-65">
                             All rights reserved &copy; Team BlinkPay / 2025
                         </div>
                     </div>
@@ -61,7 +61,7 @@ export default function Footer(){
                         </div>
                     </div>
                 </div>
-                <div className="h-[100px] flex justify-start items-center gap-10 text-4xl px-10">
+                <div className="h-[80px] lg:h-[100px] flex justify-start items-center gap-10 text-3xl lg:text-4xl px-10">
                     <a href="mailto:workplace.swayam@gmail.com">
                         <FooterRandomText>EMAIL US</FooterRandomText>
                     </a>
@@ -136,7 +136,7 @@ function FooterRandomText({ children }: { children: React.ReactNode }){
 
 function Header({ children }: { children: React.ReactNode }){
     return (
-        <div className="font-bold text-2xl">
+        <div className="font-bold text-lg lg:text-2xl">
             {children}
         </div>
     )
@@ -144,6 +144,6 @@ function Header({ children }: { children: React.ReactNode }){
 
 function FooterItem({ children }: { children: React.ReactNode }){
     return (
-        <div className="opacity-75 hover:opacity-100 transition-all duration-300 cursor-pointer w-fit text-lg">{children}</div>
+        <div className="opacity-75 hover:opacity-100 transition-all duration-300 cursor-pointer w-fit text-md lg:text-lg">{children}</div>
     )
 }

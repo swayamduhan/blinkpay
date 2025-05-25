@@ -44,6 +44,7 @@ body {
   --font-montreal: "Montreal";
   --color-pastel-100: #F4EEFF;
   --color-pastel-300: #CAAEFF;
+  --breakpoint-lg: 75rem;
 }
 
 ellipse {
