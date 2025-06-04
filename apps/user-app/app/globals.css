@@ -37,4 +37,8 @@
         }
         } */
 
-        
+@theme {
+  --color-accent-main: #4f46e5;
+  --color-accent-light: #8681E2;
+  --color-accent-background: #DDDAFD;
+}

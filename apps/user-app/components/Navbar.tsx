@@ -2,22 +2,17 @@
 import { useSetAtom } from "jotai"
 import { motion } from "motion/react"
 import { useState } from "react"
-import { SidebarHoverAtom } from "../lib/store/atoms/SidebarAtom"
 import { SwitchText } from "./SwitchText"
 import { NavItem } from "./NavItem"
+import Image from "next/image"
 
 export function Navbar(){
-    const setSidebarHover = useSetAtom(SidebarHoverAtom)
     return (
         <motion.nav
-            className="h-screen max-h-screen fixed w-[250px] z-10 bg-[#DDDAFD] p-4 space-y-10 max-w-[300px]"
-            whileHover={{ width: "300px" }}
-            transition={{ ease: "anticipate" }}
-            onMouseEnter={()=> setSidebarHover(true)}
-            onMouseLeave={()=> setSidebarHover(false)}
+            className="h-[98vh] max-h-screen fixed w-[250px] m-2 origin-center rounded-xl z-10 bg-accent-background p-4 space-y-10 max-w-[300px]"
         >
-            <div className="space-y-2">
-                <h1 className="font-medium text-xl">BLINKPAY &copy;</h1>
+            <div className="space-y-2 group">
+                <h1 className="font-medium text-xl flex items-center gap-2"><div>BLINKPAY</div> <div className="group-hover:rotate-[45deg] duration-300 transition-all"><Image src={"/star.webp"} width={25} height={25} alt="star-logo"/></div></h1>
                 <div className="border-b-1"></div>
             </div>
             <ul className="space-y-4">

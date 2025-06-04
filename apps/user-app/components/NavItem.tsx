@@ -1,17 +1,5 @@
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { SwitchText } from "./SwitchText";
-
-export function NavItem({ children }: Readonly<{ children: React.ReactNode }>){
-    const pathname = usePathname()
-    const selected = isPath(pathname, children?.toString() || "")
-    return (
-        <li className={`px-4 py-1 rounded-md ${selected ? "bg-gradient-to-r from-[#4f46e5] to-[#4f46e5ac] text-white" : "bg-[#DDDAFD]"}`}>
-            <SwitchText>
-                {children}
-            </SwitchText>
-        </li>
-    )
-}
 
 const pathMap: Record<string, string> = {
     "/": "Dashboard",
@@ -24,8 +12,28 @@ const pathMap: Record<string, string> = {
     "/settings": "Settings",
 };
 
+function getKeyByValue<T extends Record<string, any>>(object: T, value: T[keyof T] | undefined): keyof T | undefined {
+  return (Object.keys(object) as Array<keyof T>).find(key => object[key] === value);
+}
+
+export function NavItem({ children }: Readonly<{ children: React.ReactNode }>){
+    const pathname = usePathname()
+    const selected = isPath(pathname, children?.toString() || "")
+    const router = useRouter()
+
+    return (
+        <li className={`px-4 py-1 rounded-md ${selected ? "bg-gradient-to-r from-accent-main to-accent-light text-white" : "bg-[#DDDAFD]"}`} onClick={() => {
+            const path = getKeyByValue(pathMap, children?.toString())
+            if(path) router.push(path)
+        }}>
+            <SwitchText>
+                {children}
+            </SwitchText>
+        </li>
+    )
+}
+
+
 function isPath(pathname: string, child: string): boolean {
-    console.log(pathname)
-    console.log(child)
     return pathMap[pathname] === child;
 }

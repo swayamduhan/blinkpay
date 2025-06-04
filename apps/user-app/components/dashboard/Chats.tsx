@@ -3,7 +3,7 @@ import { MaskedText } from "../MaskedText";
 
 export function Chats(){
     return (
-        <div className="rounded-md h-[400px] relative overflow-hidden p-4">
+        <div className="rounded-md h-[400px] relative overflow-hidden p-4 border border-accent-background">
             <GradientDecor />
             <div className="text-3xl">
                 <MaskedText>Chats</MaskedText>

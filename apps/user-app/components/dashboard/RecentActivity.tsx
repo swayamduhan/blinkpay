@@ -56,7 +56,7 @@ export function RecentActivity(){
         },
     ]
     return (
-        <div className="relative rounded-md w-full p-4 overflow-hidden space-y-8">
+        <div className="relative rounded-md w-full p-4 overflow-hidden space-y-8 border border-accent-background">
             <GradientDecor />
             <MaskedText>
                 <div className="text-3xl ">

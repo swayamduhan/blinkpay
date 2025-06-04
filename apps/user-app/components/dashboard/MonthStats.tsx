@@ -12,7 +12,7 @@ export function MonthStats(){
     const COLORS = ['#A62121cc', '#02940Ccc', '#FFBB28cc'];
 
     return (
-        <div className="rounded-md relative overflow-hidden p-4 space-y-6">
+        <div className="rounded-md relative overflow-hidden p-4 space-y-6 border border-accent-background">
             <GradientDecor />
             <MaskedText>
                 <div className="text-3xl">Stats for the month</div>
