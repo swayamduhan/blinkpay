@@ -3,8 +3,8 @@
 // the workers pick up and send over to webhook service of blinkpay
 // if webhook is down, set it again in the queue and retry later
 
-import txnClient from "@/lib/grpc-client";
-import { AddTransactionRequest } from "@/lib/proto-gen/proto/AddTransactionRequest";
+import { grpcClient } from "@/lib/grpc-client";
+import { AddTransactionRequest } from "@/lib/main";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface PayParams {
@@ -19,10 +19,14 @@ export async function POST(req : NextRequest) {
     } catch {
         return NextResponse.json({ message : "invalid json" }, { status : 400 })
     }
+
+
     if (!body.token || !body.amount){
         return NextResponse.json({ message : "invalid request" }, { status : 400 })
     }
 
+    const amount = Number(body.amount)
+    if(isNaN(amount)) return NextResponse.json({ message: "invalid amount" }, { status: 400 })
     // simulate success
     // const isSuccess = Math.random() < 0.85
 
@@ -30,19 +34,23 @@ export async function POST(req : NextRequest) {
     const requestBody : AddTransactionRequest = {
         token : body.token,
         success : true,
-        amount : body.amount,
+        amount : amount,
         type : "TOPUP"
     }
 
-    return new Promise((resolve) => {
-        txnClient.AddTxnToQueue(requestBody,(error : any, response : any) => {
-            if (error) {
-                console.log(error)
-                resolve(NextResponse.json({ message : "Transaction failed!", error : error }, { status : 500 }))
-            } else {
-                resolve(NextResponse.json({ message : "Transaction added to queue!", response : response }, { status : 200 }))
-            }
-        })
+    try {
+        const res = await addTxn(requestBody)
+        return NextResponse.json({ message: "Transaction added to queue!", res}, { status: 200 })
+    } catch(err) {
+        return NextResponse.json({ message: "Transaction failed!", error: err }, { status: 500 })
+    }
+}
 
+function addTxn(reqBody : AddTransactionRequest): Promise<any> {
+    return new Promise((resolve, reject) => {
+        grpcClient.addTxnToQueue(reqBody, (err, response) => {
+            if(err) return reject(err)
+            resolve(response)
+        })
     })
 }

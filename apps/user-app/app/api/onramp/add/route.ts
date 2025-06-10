@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface OnRampAddParams {
     userId : number;
-    amount : string;
+    amount : number;
     provider : string;
 }
 
@@ -35,7 +35,7 @@ export async function POST(req : NextRequest){
             }
         })
 
-        return NextResponse.json({ message : "txn created in db!", txnId : txn.id, redirectUrl : `${process.env.BANKING_API}/pay?token=${token}` }, { status : 200 })
+        return NextResponse.json({ message : "txn created in db!", txnId : txn.id, redirectUrl : `${process.env.BANKING_API}/?token=${token}&amount=${body.amount}` }, { status : 200 })
     } catch ( err ) {
         return NextResponse.json({ error : err }, { status : 500 })
     }

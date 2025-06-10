@@ -1,6 +1,7 @@
 {
   "extends": "@blinkpay/typescript-config/nextjs.json",
   "compilerOptions": {
+    "jsx": "preserve",
     "plugins": [
       {
         "name": "next"

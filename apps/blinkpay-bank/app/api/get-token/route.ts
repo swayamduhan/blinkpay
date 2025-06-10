@@ -5,7 +5,7 @@ interface GetTokenParams {
     amount : string
 }
 
-// make the bank as a full fledged api later on
+// make the bank as a full fledged api later on, (maybe) :\
 
 
 export async function POST(req : NextRequest){

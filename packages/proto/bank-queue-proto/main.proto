@@ -13,23 +13,11 @@ message AddTransactionRequest {
     string token = 1;
     bool success = 2;
     string type = 3;
-    string amount = 4;
+    int32 amount = 4;
 }
 
 message AddTransactionResponse {
     string response = 1;
-}
-
-service SayHelloService{
-    rpc SayHello(HelloRequest) returns (HelloReply);
-}
-
-message HelloRequest {
-    string name = 1;
-}
-
-message HelloReply {
-    string reply = 1;
 }
 
 //  gRPC protobuf declaration

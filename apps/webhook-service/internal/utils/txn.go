@@ -5,7 +5,6 @@ import (
 	"webhook-service/internal/db"
 	"webhook-service/internal/models"
 
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -15,19 +14,12 @@ func HandleTransaction(ctx context.Context, DbPool *pgxpool.Pool, queries *db.Qu
 		return err
 	}
 	defer tx.Rollback(ctx)
-	
-	var amount pgtype.Numeric
-
-	err = amount.Scan(payload.Amount)
-	if err != nil {
-		return err
-	}
 
 	qtx := queries.WithTx(tx)
 
 	// add balance to wallet
 	_, err = qtx.AddToWallet(ctx, db.AddToWalletParams{
-		Balance: amount,
+		Balance: payload.Amount,
 		UserID: userId,
 	})
 	if err != nil {

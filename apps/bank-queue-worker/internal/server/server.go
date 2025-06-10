@@ -24,7 +24,7 @@ type Transaction struct {
 	Token string `json:"token"`
 	Success bool `json:"success"`
 	Type string `json:"type"`
-	Amount string `json:"amount"`
+	Amount int32 `json:"amount"`
 }
 
 type server struct {
