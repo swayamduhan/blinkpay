@@ -36,13 +36,19 @@ model User {
   emailVerified DateTime? @map("email_verified")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  
   wallet wallets?
   magic_token magic_links?
   bank_txns bank_transactions[]
   sent_txns p2p_transactions[] @relation(name: "senderRelation")
   receive_txns p2p_transactions[] @relation(name: "receiverRelation")
+  favorites Favorites[] @relation(name: "mainUser")
+  favorited_by Favorites[] @relation(name: "favUser")
   accounts Account[]
   sessions Session[]
+  sending_user RecentRecipients[] @relation(name: "senderUser")
+  receiving_user RecentRecipients[] @relation(name: "receiverUser")
+
 
   @@map("users")
 }
@@ -125,4 +131,29 @@ model VerificationToken {
  
   @@id([identifier, token])
   @@map("verification_token")
+}
+
+model Favorites {
+  id Int @id @default(autoincrement())
+  user_id Int 
+  fav_user_id Int
+  user User @relation(name: "mainUser", fields: [user_id], references: [id])
+  favUser User @relation(name: "favUser", fields: [fav_user_id], references: [id])
+
+  @@map("favorites")
+}
+
+model RecentRecipients {
+  id Int @id @default(autoincrement())
+  user_id Int 
+  receiver_id Int
+  frequency Int @default(1)
+  lastSentAt DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], name: "senderUser")
+  recipient User @relation(fields: [receiver_id], references: [id], name: "receiverUser")
+
+  @@index([user_id])
+  @@unique([user_id, receiver_id])
+  @@map("recent_recipients")
 }

@@ -32,11 +32,59 @@ async function main() {
         }
     ]
   })
+
+  await prisma.favorites.createMany({
+    data: [
+        {
+            user_id: 1,
+            fav_user_id: 2
+        },
+        {
+            user_id: 2,
+            fav_user_id: 1
+        }
+    ]
+  })
+
+  await prisma.recentRecipients.createMany({
+    data: [
+        {
+            user_id: 1,
+            receiver_id: 2,
+            frequency: 2
+        },
+        {
+            user_id: 2,
+            receiver_id: 1,
+            frequency: 1
+        }
+    ]
+  })
+
+  await prisma.p2p_transactions.createMany({
+    data: [
+        {
+            sender_id: 1,
+            receiver_id: 2,
+            amount: 1000,
+        },
+        {
+            sender_id: 1,
+            receiver_id: 2,
+            amount: 5000
+        },
+        {
+            sender_id: 2,
+            receiver_id: 1,
+            amount: 9999
+        }
+    ]
+  })
 }
 
 main()
   .then(async () => {
-    console.log('🌱 Database has been seeded.')
+    console.log('Database has been seeded :)')
     await prisma.$disconnect()
   })
   .catch(async (e) => {
