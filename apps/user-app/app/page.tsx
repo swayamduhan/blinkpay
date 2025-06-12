@@ -9,12 +9,27 @@ import { RecentActivity } from "../components/dashboard/RecentActivity";
 import { MaskedText } from "../components/MaskedText";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+import { SessionProvider, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default function Home() {
+function Home() {
+
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if(status === "unauthenticated") router.push("/api/auth/signin")
+  }, [status])
 
   useGSAP(() => {
     gsap.registerPlugin(SplitText)
   })
+
+  if(status === "loading"){
+    return <p className="text-6xl">Loading...</p>
+  }
+  
   return (
     <div className="space-y-8">
       <h1 className="text-[40px] mb-10">
@@ -31,4 +46,14 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+
+
+export default function Wrapper(){
+  return (
+    <SessionProvider>
+      <Home />
+    </SessionProvider>
+  )
 }

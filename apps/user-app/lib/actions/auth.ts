@@ -6,13 +6,13 @@ import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const NEXT_AUTH_CONFIG : NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    // adapter: PrismaAdapter(prisma),
     providers : [
-        Google({
-            clientId : process.env.GOOGLE_CLIENT_ID || "",
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-            allowDangerousEmailAccountLinking: true
-        }),
+        // Google({
+        //     clientId : process.env.GOOGLE_CLIENT_ID || "",
+        //     clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        //     allowDangerousEmailAccountLinking: true
+        // }),
         CredentialsProvider({
             name : 'Credentials',
             credentials : {
@@ -37,11 +37,16 @@ export const NEXT_AUTH_CONFIG : NextAuthOptions = {
                     throw new Error("OAUTH_USER")
                 }
 
-                const isValidPassword = await bcrypt.compare(credentials.password, user.password)
+                // TODO: remove this comment after actual sign up is set up
+                // const isValidPassword = await bcrypt.compare(credentials.password, user.password)
+
+                const isValidPassword = credentials.password === user.password
 
                 if(!isValidPassword){
                     throw new Error("INCORRECT_PASSWORD")
                 }
+
+                console.log("signin done")
 
                 return {
                     id : user.id,
@@ -52,9 +57,10 @@ export const NEXT_AUTH_CONFIG : NextAuthOptions = {
         })
     ],
     secret : process.env.NEXTAUTH_SECRET,
-    // pages : {
-    //     signIn : '/auth/signin'
-    // },
+    pages : {
+        // signIn : '/auth/signin'
+        signOut: "https://blinkpay.swayd.live"
+    },
     callbacks : {
         async session({ session, token } : any) {
             if(session.user){
@@ -68,6 +74,9 @@ export const NEXT_AUTH_CONFIG : NextAuthOptions = {
                 token.email = user.email
             }
             return token
+        },
+        async redirect({ url, baseUrl }) {
+            return baseUrl
         }
     }
 }

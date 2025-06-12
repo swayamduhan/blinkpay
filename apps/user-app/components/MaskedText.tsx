@@ -21,7 +21,7 @@ export function MaskedText({ children }: Readonly<{ children: React.ReactNode }>
             ease: "power4.out",
             stagger: 0.1
         })
-    })
+    }, { scope: container })
 
 
     return (
