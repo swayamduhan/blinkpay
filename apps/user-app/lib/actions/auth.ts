@@ -58,7 +58,7 @@ export const NEXT_AUTH_CONFIG : NextAuthOptions = {
     ],
     secret : process.env.NEXTAUTH_SECRET,
     pages : {
-        // signIn : '/auth/signin'
+        // signIn : '/',
         signOut: "https://blinkpay.swayd.live"
     },
     callbacks : {
@@ -76,7 +76,7 @@ export const NEXT_AUTH_CONFIG : NextAuthOptions = {
             return token
         },
         async redirect({ url, baseUrl }) {
-            return baseUrl
+            return url
         }
     }
 }

@@ -19,7 +19,7 @@ function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    if(status === "unauthenticated") router.push("/api/auth/signin")
+    if(status === "unauthenticated") router.push("/api/auth/signin?callbackUrl=/")
   }, [status])
 
   useGSAP(() => {

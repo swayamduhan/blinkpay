@@ -1,43 +1,10 @@
 "use client"
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
 import { MaskedText } from "../MaskedText";
+import axios from "axios";
 
-interface recentListItem {
-    name: string;
-    mobile: string;
-    avatar: string | undefined;
-}
-
-const recentsList: recentListItem[] = [
-    {
-        name: "Swayam",
-        avatar: undefined,
-        mobile: "9958015496"
-    },
-        {
-        name: "Swayam",
-        avatar: undefined,
-        mobile: "9958015496"
-    },
-        {
-        name: "Swayam",
-        avatar: undefined,
-        mobile: "9958015496"
-    },
-        {
-        name: "Swayam",
-        avatar: undefined,
-        mobile: "9958015496"
-    }
-]
-
-export function QuickPayContent(){
-    const favoritesRef = useRef<any[]>([])
-
-    useEffect(() => {
-
-    }, [])
+export function QuickPayContent({ favs, recs } : {favs: any[], recs: any[]}){
     return (
         <div>
             <div className="">
@@ -57,8 +24,8 @@ export function QuickPayContent(){
                     Favorites
                 </div>
                 <div className="grid grid-cols-5 gap-4 mt-4">
-                    {recentsList.map((person, idx) => (
-                        <RecentPerson key={`recent-person-${idx}`} name={person.name} avatar={person.avatar} mobile={person.mobile}/>
+                    {favs.map((person, idx) => (
+                        <QuickPayRecipient key={`recent-person-${idx}`} id={person.id} name={person.name} avatar={person.avatar} mobile={person.mobile}/>
                     ))}
                 </div>
             </div>
@@ -67,8 +34,8 @@ export function QuickPayContent(){
                     Recents
                 </div>
                 <div className="grid grid-cols-5 gap-4 mt-4">
-                    {recentsList.map((person, idx) => (
-                        <RecentPerson key={`recent-person-${idx}`} name={person.name} avatar={person.avatar} mobile={person.mobile}/>
+                    {recs.map((person, idx) => (
+                        <QuickPayRecipient key={`recent-person-${idx}`} id={person.id} name={person.name} avatar={person.avatar} mobile={person.mobile}/>
                     ))}
                 </div>
             </div>
@@ -76,7 +43,7 @@ export function QuickPayContent(){
     )
 }
 
-function RecentPerson({ name, avatar, mobile }: { name: string, avatar: string | undefined, mobile: string }){
+function QuickPayRecipient({ id, name, avatar, mobile }: { id: number, name: string, avatar: string | undefined, mobile: string }){
     return (
         <div className="flex gap-4 items-center border p-4 rounded-md border-accent-background cursor-pointer group hover:bg-accent-light/10">
             <div className="rounded-md h-12 w-12 bg-gradient-to-r from-[#4f46e5cc] to-[#4f46e5ac] text-accent-background font-semibold text-4xl grid place-items-center relative group-hover:translate-x-[2px] duration-200 transition-all ease-out">

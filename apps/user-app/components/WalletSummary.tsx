@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { GradientDecor } from "./GradientDecor";
 import { MaskedText } from "./MaskedText";
 
-export function WalletSummary(){
+export function WalletSummary({ balance, lastTransaction, myname }: { balance: number, lastTransaction: any, myname: string }){
 
     const [showBalance, setShowBalance] = useState(false)
     return (
@@ -18,18 +18,18 @@ export function WalletSummary(){
                 <div>
                     <div className="">
                         <span className="text-6xl tracking-tighter font-thin cursor-pointer" onClick={() => setShowBalance(!showBalance)}>
-                            {showBalance ? "$879" : "*****"}
+                            {showBalance ? `$${(balance/100).toString()}` : "*****"}
                         </span>
                         <span className="text-accent-light text-sm">AVAILABLE BALANCE*</span>
                     </div>
                     <div className="text-4xl font-thin">
-                        Mr. Swayam Duhan
+                        {myname}
                     </div>
                 </div>
                 <div className="">
                     <div className="flex gap-2 items-baseline">
                         <div><DollarTransact /></div>
-                        <div className="text-xl">Sent <span className="text-2xl">$120</span>, Yves</div>
+                        <div className="text-xl">{lastTransaction.type} <span className="text-2xl">${(lastTransaction.amount / 100).toString()}</span>, {lastTransaction.username}</div>
                     </div>
                     <div className="text-accent-light text-sm">LAST TRANSACTION | <span className="cursor-pointer">REPEAT?</span></div>
                 </div>
