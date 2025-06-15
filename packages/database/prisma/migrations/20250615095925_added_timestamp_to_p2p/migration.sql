@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "p2p_transactions" ADD COLUMN     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

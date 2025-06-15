@@ -70,6 +70,7 @@ model p2p_transactions {
   sender_id Int
   receiver_id Int
   amount Int @default(0)
+  created_at DateTime @default(now())
   sender_user User @relation(name: "senderRelation", fields: [sender_id], references: [id])
   receiver_user User @relation(name: "receiverRelation", fields: [receiver_id], references: [id])
 }

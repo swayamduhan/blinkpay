@@ -67,16 +67,19 @@ async function main() {
             sender_id: 1,
             receiver_id: 2,
             amount: 1000,
+            created_at: new Date()
         },
         {
             sender_id: 1,
             receiver_id: 2,
-            amount: 5000
+            amount: 5000,
+            created_at: new Date()
         },
         {
             sender_id: 2,
             receiver_id: 1,
-            amount: 9999
+            amount: 9999,
+            created_at: new Date()
         }
     ]
   })
