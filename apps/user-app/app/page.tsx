@@ -1,33 +1,17 @@
-"use client"
-
-import { useGSAP } from "@gsap/react";
 import { ChartContainer } from "../components/dashboard/ChartContainer"
 import { Chats } from "../components/dashboard/Chats";
 import { MonthStats } from "../components/dashboard/MonthStats";
 import { QuickPayTile } from "../components/dashboard/QuickPay";
 import { RecentActivity } from "../components/dashboard/RecentActivity";
 import { MaskedText } from "../components/MaskedText";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { SessionProvider, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { NEXT_AUTH_CONFIG } from "../lib/actions/auth";
 
-function Home() {
-
-  const { data: session, status } = useSession()
-  const router = useRouter()
-
-  useEffect(() => {
-    if(status === "unauthenticated") router.push("/api/auth/signin?callbackUrl=/")
-  }, [status])
-
-  useGSAP(() => {
-    gsap.registerPlugin(SplitText)
-  })
-
-  if(status === "loading"){
-    return <p className="text-6xl">Loading...</p>
+export default async function Home() {
+  const userSession = await getServerSession(NEXT_AUTH_CONFIG)
+  if(!userSession){
+    redirect("/api/auth/signin?callbackUrl=/")
   }
   
   return (
@@ -46,14 +30,4 @@ function Home() {
       </div>
     </div>
   );
-}
-
-
-
-export default function Wrapper(){
-  return (
-    <SessionProvider>
-      <Home />
-    </SessionProvider>
-  )
 }

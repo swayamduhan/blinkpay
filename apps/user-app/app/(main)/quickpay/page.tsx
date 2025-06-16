@@ -4,12 +4,13 @@ import { GradientDecor } from "../../../components/GradientDecor";
 import { MaskedText } from "../../../components/MaskedText";
 import { SwitchText } from "../../../components/SwitchText";
 import { WalletSummary } from "../../../components/WalletSummary";
-import { QuickPayContent } from "../../../components/quickpay/main";
+import { QuickPayContent } from "../../../components/quickpay/quickPayContent";
 import { NEXT_AUTH_CONFIG } from "../../../lib/actions/auth";
 import { redirect } from "next/navigation";
 import axios from "axios";
 import { getFavoritesAndRecents } from "../../../lib/actions/getFavoritesRecents";
 import { getAccountSummary } from "../../../lib/actions/accountSummary";
+import { QuickPayMain } from "../../../components/quickpay/quickPayMain";
 
 
 export const dynamic = "force-dynamic"
@@ -35,11 +36,8 @@ export default async function QuickPayPage(){
                </MaskedText>
             </h1>
             <div className="grid grid-cols-3 gap-8">
-                <div className="col-span-2 rounded-md h-[400px] relative overflow-hidden p-4 border border-accent-background">
-                    <GradientDecor />
-                    {/* @ts-ignore */}
-                    <QuickPayContent favs={favs} recs={recs} />
-                </div>
+                {/* @ts-expect-error */}
+                <QuickPayMain favs={favs} recs={recs} userId={session.user?.id}/>
                 <div className="col-span-1">
                     <WalletSummary balance={accountData?.balance || 0} lastTransaction={accountData?.lastTransaction} myname={accountData?.myname || ""}/>
                 </div>

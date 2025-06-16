@@ -1,3 +1,4 @@
+"use client"
 import { GradientDecor } from "../GradientDecor";
 import { MaskedText } from "../MaskedText";
 

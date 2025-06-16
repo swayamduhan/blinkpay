@@ -1,3 +1,4 @@
+"use client"
 import { Variants } from "motion/react";
 import { Currency } from "../Currency";
 import { GradientDecor } from "../GradientDecor";

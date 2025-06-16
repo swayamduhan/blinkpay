@@ -1,3 +1,4 @@
+"use client"
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 import { GradientDecor } from "../GradientDecor";
 import { Currency } from "../Currency";

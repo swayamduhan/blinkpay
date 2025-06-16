@@ -1,10 +1,39 @@
 "use client"
-import { useEffect, useRef, useState } from "react";
 import { Button } from "../Button";
 import { MaskedText } from "../MaskedText";
-import axios from "axios";
 
-export function QuickPayContent({ favs, recs } : {favs: any[], recs: any[]}){
+export function QuickPayContent({ favs, recs, setRecipient, recipientDetails } : {favs: any[], recs: any[], setRecipient: any, recipientDetails: any}){
+
+    function QuickPayRecipient({ id, name, avatar, mobile }: { id: number, name: string, avatar: string | undefined, mobile: string }){
+
+        function handleRecipientClick(){
+            setRecipient(id)
+            recipientDetails.current = {
+                id,
+                name,
+                phone: mobile
+            }
+        }
+
+        return (
+            <div className="flex gap-4 items-center border p-4 rounded-md border-accent-background cursor-pointer group hover:bg-accent-light/10" onClick={() => handleRecipientClick()}>
+                <div className="rounded-md h-12 w-12 bg-gradient-to-r from-[#4f46e5cc] to-[#4f46e5ac] text-accent-background font-semibold text-4xl grid place-items-center relative group-hover:translate-x-[2px] duration-200 transition-all ease-out">
+                    {avatar || name[0]}
+                </div>
+                <div className="flex flex-col group-hover:-translate-x-[2px] duration-200 transition-all ease-out">
+                    <div className="text-xl">
+                        {name}
+                    </div>
+                    <div className="text-accent-main/70 text-sm">
+                        {mobile}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+
+
     return (
         <div>
             <div className="">
@@ -37,24 +66,6 @@ export function QuickPayContent({ favs, recs } : {favs: any[], recs: any[]}){
                     {recs.map((person, idx) => (
                         <QuickPayRecipient key={`recent-person-${idx}`} id={person.id} name={person.name} avatar={person.avatar} mobile={person.mobile}/>
                     ))}
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function QuickPayRecipient({ id, name, avatar, mobile }: { id: number, name: string, avatar: string | undefined, mobile: string }){
-    return (
-        <div className="flex gap-4 items-center border p-4 rounded-md border-accent-background cursor-pointer group hover:bg-accent-light/10">
-            <div className="rounded-md h-12 w-12 bg-gradient-to-r from-[#4f46e5cc] to-[#4f46e5ac] text-accent-background font-semibold text-4xl grid place-items-center relative group-hover:translate-x-[2px] duration-200 transition-all ease-out">
-                {avatar || name[0]}
-            </div>
-            <div className="flex flex-col group-hover:-translate-x-[2px] duration-200 transition-all ease-out">
-                <div className="text-xl">
-                    {name}
-                </div>
-                <div className="text-accent-main/70 text-sm">
-                    {mobile}
                 </div>
             </div>
         </div>

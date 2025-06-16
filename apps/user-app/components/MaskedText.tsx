@@ -2,13 +2,14 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { SplitText } from "gsap/SplitText"
-import { motion } from "motion/react"
 import { useRef } from "react"
 
 
 export function MaskedText({ children }: Readonly<{ children: React.ReactNode }>){
     const container = useRef<HTMLDivElement>(null)
+
     useGSAP(() => {
+        gsap.registerPlugin(SplitText)
         const split = SplitText.create(".split-me", {
             type: "lines",
             mask: "lines"
