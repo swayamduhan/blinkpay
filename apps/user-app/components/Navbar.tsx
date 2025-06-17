@@ -5,6 +5,8 @@ import { useState } from "react"
 import { SwitchText } from "./SwitchText"
 import { NavItem } from "./NavItem"
 import Image from "next/image"
+import { IconHistory, IconLayout, IconLocationDollar, IconLogout, IconMessageCirclePlus, IconSettings, IconUserCog, IconWallet } from "@tabler/icons-react"
+import Link from "next/link"
 
 export function Navbar(){
     return (
@@ -16,15 +18,54 @@ export function Navbar(){
                 <div className="border-b-1"></div>
             </div>
             <ul className="space-y-4">
-                <NavItem>Dashboard</NavItem>
-                <NavItem>Quick Pay</NavItem>
-                <NavItem>Add Money</NavItem>
-                <NavItem>Wallet</NavItem>
-                <NavItem>Chat</NavItem>
-                <NavItem>Transaction History</NavItem>
-                <NavItem>Profile</NavItem>
-                <NavItem>Site Settings</NavItem>
-                <NavItem>LogOut</NavItem>
+                <NavItem href="/">
+                    <div className="flex gap-1">
+                        <IconLayout stroke={1.7}/>
+                        Dashboard
+                    </div>
+                </NavItem>
+                <NavItem href="/quickpay">
+                    <div className="flex gap-1">
+                        <IconLocationDollar stroke={1.7}/>
+                        Quick Pay
+                    </div>
+                </NavItem>
+                <NavItem href="/wallet">
+                    <div className="flex gap-1">
+                        <IconWallet stroke={1.7}/>
+                        Wallet
+                    </div>
+                </NavItem>
+                <NavItem href="/chat">
+                    <div className="flex gap-1">
+                        <IconMessageCirclePlus stroke={1.7}/>
+                        Chat
+                    </div>
+                </NavItem>
+                <NavItem href="/txn-history">
+                    <div className="flex gap-1">
+                        <IconHistory stroke={1.7}/>
+                        Transaction History
+                    </div>
+                </NavItem>
+                <NavItem href="/profile">
+                    <div className="flex gap-1">
+                        <IconUserCog stroke={1.7}/>
+                        Profile
+                    </div>
+                </NavItem>
+                <NavItem href="/settings">
+                    <div className="flex gap-1">
+                        <IconSettings stroke={1.7}/>
+                        Site Settings
+                    </div>
+                </NavItem>
+                <NavItem href="/logout">
+                    <div className="flex gap-1">
+                        <IconLogout stroke={1.7}/>
+                        LogOut
+                    </div>
+                </NavItem>
             </ul>
         </motion.nav>
     )

@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { GradientDecor } from "./GradientDecor";
 import { MaskedText } from "./MaskedText";
+import { IconLocationDollar } from "@tabler/icons-react";
 
 export function WalletSummary({ balance, lastTransaction, myname }: { balance: number, lastTransaction: any, myname: string }){
 
@@ -27,19 +28,13 @@ export function WalletSummary({ balance, lastTransaction, myname }: { balance: n
                     </div>
                 </div>
                 <div className="">
-                    <div className="flex gap-2 items-baseline">
-                        <div><DollarTransact /></div>
+                    <div className="flex gap-2">
+                        <div><IconLocationDollar stroke={2} /></div>
                         <div className="text-xl">{lastTransaction.type} <span className="text-2xl">${(lastTransaction.amount / 100).toString()}</span>, {lastTransaction.username}</div>
                     </div>
                     <div className="text-accent-light text-sm">LAST TRANSACTION | <span className="cursor-pointer">REPEAT?</span></div>
                 </div>
             </div>
         </div>
-    )
-}
-
-function DollarTransact(){
-    return (
-        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="1.7"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-location-dollar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13.08 20.162l-3.08 -6.162l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5l-2.55 7.063" /><path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" /><path d="M19 21v1m0 -8v1" /></svg>
     )
 }

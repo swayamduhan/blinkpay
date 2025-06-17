@@ -19,7 +19,7 @@ export default async function QuickPayPage(){
     const session = await getServerSession(NEXT_AUTH_CONFIG)
     if(!session){
         console.log("active session not found")
-        redirect("/api/auth/signin")
+        redirect("/api/auth/signin?callbackUrl=/quickpay")
     }
 
     //@ts-expect-error

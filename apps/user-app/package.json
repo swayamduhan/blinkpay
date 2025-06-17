@@ -15,8 +15,10 @@
     "@blinkpay/db": "*",
     "@blinkpay/ui": "*",
     "@gsap/react": "^2.1.2",
+    "@tabler/icons-react": "^3.34.0",
     "axios": "^1.8.1",
     "bcrypt": "^5.1.1",
+    "clsx": "^2.1.1",
     "d3-shape": "^3.2.0",
     "gsap": "^3.13.0",
     "jotai": "^2.12.5",
@@ -25,7 +27,8 @@
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@blinkpay/eslint-config": "*",

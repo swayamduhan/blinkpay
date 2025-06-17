@@ -4,6 +4,10 @@ import { GradientDecor } from "../GradientDecor"
 import { QuickPayContent } from "./quickPayContent"
 import axios from "axios"
 import { P2PTxnParams } from "../../app/api/pay/route"
+import { Loader } from "../Loader"
+import { cn } from "../../lib/utils/cn"
+import { GreenTick } from "../GreenTick"
+import { RenderAmountInput } from "../amountInput"
 
 export function QuickPayMain({ favs, recs, userId }: { favs: any, recs: any, userId: number }){
     const [recipient, setRecipient] = useState<number>(0)
@@ -33,6 +37,8 @@ function PayToRecipient({ recipient, recipientDetails, setRecipient, userId }: {
     const [name, setName] = useState<string>("")
     const [phone, setPhone] = useState<string>("")
     const [remarks, setRemarks] = useState<string>("")
+    const [paymentStatus, setPaymentStatus] = useState<"idle" | "processing" | "success" | "error">("idle")
+    const timeout = useRef<NodeJS.Timeout | null>(null)
 
     async function getRecipientDetails(){
         const res = await axios.post("/api/fetch/recipient", {
@@ -56,24 +62,36 @@ function PayToRecipient({ recipient, recipientDetails, setRecipient, userId }: {
     }
 
     async function handlePayment(){
+        if(paymentStatus === "processing") return
         // @ts-expect-error
         const amountString = document.getElementById("amount-input")?.value
         if(!amountString) return
-
+        
         const amount = Number(amountString) * 100
+        if(isNaN(amount) || amount <= 0) return
         try {
+            if(timeout.current) clearTimeout(timeout.current)
+            setPaymentStatus("processing")
             const reqBody: P2PTxnParams = {
                 userId,
                 receiverId: recipient,
                 amount
             }
-            const res = await axios.post("/api/pay", reqBody)
-
-            alert(res.data.message)
+            await axios.post("/api/pay", reqBody)
+            setPaymentStatus("success")
+            timeout.current = setTimeout(() => {
+                setPaymentStatus("idle")
+            }, 5000)
+            // document.getElementById("amount-title")?.value = ""
         } catch(error) {
             console.log("encountered error in payment holy shit fk this ho")
+            setPaymentStatus("error")
+            timeout.current = setTimeout(() => {
+                setPaymentStatus("idle")
+            }, 5000)
         }
     }
+
 
     return (
         <div className="col-span-2 flex">
@@ -87,47 +105,30 @@ function PayToRecipient({ recipient, recipientDetails, setRecipient, userId }: {
             </div>
             <div className="col-span-1 flex-1 rounded-md h-[400px] relative overflow-hidden p-4 border border-accent-background">
                 <GradientDecor />
-                <RenderAmountInput />
+                <RenderAmountInput id="amount-input"/>
                 <div>
                     <textarea placeholder="Remarks? (Max 128 letters)" rows={3} className="mt-4 overflow-hidden resize-none w-full text-lg text-neutral-600 focus:outline-none" value={remarks} onChange={handleRemarksInput}></textarea>
                 </div>
-                <button className="group rounded-md px-4 py-2 text-4xl bg-accent-light text-accent-background cursor-pointer flex gap-2" onClick={handlePayment}>
-                    <div>Pay to {(recipientDetails.current?.name || name).split(" ")[0]}</div>
-                    <div className="group-hover:translate-x-1 duration-200 ease-out transition-all will-change-transform">&rarr;</div>
-                </button>
-            </div>
-        </div>
-    )
-}
-
-function RenderAmountInput(){
-    const [amount, setAmount] = useState<string>("")
-
-    function handleAmountChange(e: ChangeEvent<HTMLInputElement>){
-        let newAmount = e.target.value
-        if (/^\d*\.?\d{0,2}$/.test(newAmount)) {
-            setAmount(newAmount)
-        }
-    }
-
-    const [integerPart, decimalPart] = amount.split(".")
-
-    return (
-        <div className="text-8xl flex items-center group">
-            <div>$</div>
-            <div className="relative">
-                <div className="absolute inset-0 pointer-events-none overflow-hidden grid items-center">
-                    {amount ? (
-                        <div>
-                            <span>{integerPart}</span>
-                            {integerPart !== amount && <span className="font-thin">.</span>}
-                            {decimalPart && <span className="font-thin">{decimalPart}</span>}
-                        </div>
-                    ) : (
-                        <div className="text-neutral-400 -translate-x-[55px] group-hover:translate-x-[0px] duration-300 ease-out">0<span className="text-lg text-accent-main/60">&rarr; ENTER AMOUNT</span></div>
+                <button 
+                    disabled={paymentStatus === "processing"}
+                    className={cn(
+                        "group rounded-md px-4 py-2 text-4xl transition-all duration-300 bg-accent-light text-accent-background cursor-pointer flex gap-2 items-center",
+                        paymentStatus === "processing" && "pointer-events-none opacity-50",
+                        paymentStatus === "success" && "bg-green-300 text-white",
+                        paymentStatus === "error" && "bg-red-300 text-white",
                     )}
-                </div>
-                <input id="amount-input" type="text" className="focus:outline-none w-full border text-transparent caret-black" value={amount} onChange={(e) => handleAmountChange(e)}/>
+                    onClick={handlePayment}>
+                    <div>Pay to {(recipientDetails.current?.name || name).split(" ")[0]}</div>
+                    {paymentStatus === "idle" && 
+                        <div className="group-hover:translate-x-1 duration-200 ease-out transition-all will-change-transform">&rarr;</div>
+                    }
+                    {paymentStatus === "processing" && 
+                        <div className="h-8 w-8 scale-175"><Loader /></div>
+                    }
+                    {paymentStatus === "success" && 
+                        <div className="w-8 h-8 scale-150 hue-rotate-30"><GreenTick /></div>
+                    }
+                </button>
             </div>
         </div>
     )
