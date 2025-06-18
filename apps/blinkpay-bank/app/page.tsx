@@ -1,5 +1,4 @@
 import { Button } from "@/components/Button";
-import Image from "next/image";
 
 export default async function Home({ searchParams }: { searchParams: { [key: string]: string } }) {
   const params = await searchParams
@@ -33,9 +32,15 @@ export default async function Home({ searchParams }: { searchParams: { [key: str
 function PayComponent({ params } : { params : {
   [key : string] : string
 }}){
+
+  function showAmount(){
+    const amount = Number(params.amount)
+    return (amount / 100).toString()
+  }
+
   return (
     <div className="flex flex-col gap-10 items-center">
-      <div className="text-xl">Amount: {params.amount}</div>
+      <div className="text-xl">Amount: {showAmount()}</div>
       <Button params={params}/>
     </div>
   )

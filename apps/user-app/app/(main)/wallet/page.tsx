@@ -23,7 +23,8 @@ export default async function Wallet(){
                </MaskedText>
             </h1>
             <div className="grid grid-cols-3 gap-8">
-                <AddMoney />
+                {/* @ts-expect-error */}
+                <AddMoney userId={session.user?.id}/>
                 <div className="col-span-1">
                     <WalletSummary balance={accountData?.balance || 0} lastTransaction={accountData?.lastTransaction} myname={accountData?.myname || ""}/>
                 </div>

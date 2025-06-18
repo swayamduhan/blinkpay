@@ -67,7 +67,7 @@ function PayToRecipient({ recipient, recipientDetails, setRecipient, userId }: {
         const amountString = document.getElementById("amount-input")?.value
         if(!amountString) return
         
-        const amount = Number(amountString) * 100
+        const amount = Math.round(Number(amountString) * 100)
         if(isNaN(amount) || amount <= 0) return
         try {
             if(timeout.current) clearTimeout(timeout.current)

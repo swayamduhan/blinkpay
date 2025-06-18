@@ -8,7 +8,7 @@ export function Button({ params } : { params : { [key: string] : string }}){
     return (
         <button
             className={`px-14 py-4 border text-lg text-black bg-white hover:text-white hover:bg-black/30 hover:border-transparent ${loading ? "pointer-events-none" : "cursor-pointer"}`}
-            onClick={()=>sendPayRequest(params.token, params.amount, setLoading)}
+            onClick={()=>sendPayRequest(params.token, Number(params.amount), setLoading)}
         >
             {loading? "Processing..." : "Pay"}
         </button>

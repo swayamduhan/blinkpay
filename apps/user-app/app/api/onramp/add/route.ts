@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 // 4. bank will return status to webhook for updation in db
 // 5. push notification or re-render on site
 
-interface OnRampAddParams {
+export interface OnRampAddParams {
     userId : number;
     amount : number;
     provider : string;
@@ -19,7 +19,7 @@ export async function POST(req : NextRequest){
 
     try {
         // call blinkpay bank to get token
-        const res = await axios.post(`${process.env.BANKING_API}/get-token`, {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BANKING_URL}/api/get-token`, {
             amount : body.amount,
         })
 
@@ -35,8 +35,11 @@ export async function POST(req : NextRequest){
             }
         })
 
-        return NextResponse.json({ message : "txn created in db!", txnId : txn.id, redirectUrl : `${process.env.BANKING_API}/?token=${token}&amount=${body.amount}` }, { status : 200 })
+        const redirectUrl = `${process.env.NEXT_PUBLIC_BANKING_URL}/?token=${token}&amount=${body.amount}`
+        console.log('redirect url: ', redirectUrl)
+        return NextResponse.json({ message : "txn created in db!", txnId : txn.id.toString(), redirectUrl }, { status : 200 })
     } catch ( err ) {
+        console.log(err)
         return NextResponse.json({ error : err }, { status : 500 })
     }
 }

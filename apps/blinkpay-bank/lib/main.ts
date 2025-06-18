@@ -18,7 +18,6 @@ import {
   type ServiceError,
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
-import Long from "long";
 
 export const protobufPackage = "proto";
 
@@ -26,7 +25,7 @@ export interface AddTransactionRequest {
   token: string;
   success: boolean;
   type: string;
-  amount: Long;
+  amount: number;
 }
 
 export interface AddTransactionResponse {
@@ -34,7 +33,7 @@ export interface AddTransactionResponse {
 }
 
 function createBaseAddTransactionRequest(): AddTransactionRequest {
-  return { token: "", success: false, type: "", amount: Long.ZERO };
+  return { token: "", success: false, type: "", amount: 0 };
 }
 
 export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
@@ -48,8 +47,8 @@ export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
     if (message.type !== "") {
       writer.uint32(26).string(message.type);
     }
-    if (!message.amount.equals(Long.ZERO)) {
-      writer.uint32(32).int64(message.amount.toString());
+    if (message.amount !== 0) {
+      writer.uint32(32).int32(message.amount);
     }
     return writer;
   },
@@ -90,7 +89,7 @@ export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
             break;
           }
 
-          message.amount = Long.fromString(reader.int64().toString());
+          message.amount = reader.int32();
           continue;
         }
       }
@@ -107,7 +106,7 @@ export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
       token: isSet(object.token) ? globalThis.String(object.token) : "",
       success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
       type: isSet(object.type) ? globalThis.String(object.type) : "",
-      amount: isSet(object.amount) ? Long.fromValue(object.amount) : Long.ZERO,
+      amount: isSet(object.amount) ? globalThis.Number(object.amount) : 0,
     };
   },
 
@@ -122,8 +121,8 @@ export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
     if (message.type !== "") {
       obj.type = message.type;
     }
-    if (!message.amount.equals(Long.ZERO)) {
-      obj.amount = (message.amount || Long.ZERO).toString();
+    if (message.amount !== 0) {
+      obj.amount = Math.round(message.amount);
     }
     return obj;
   },
@@ -136,9 +135,7 @@ export const AddTransactionRequest: MessageFns<AddTransactionRequest> = {
     message.token = object.token ?? "";
     message.success = object.success ?? false;
     message.type = object.type ?? "";
-    message.amount = (object.amount !== undefined && object.amount !== null)
-      ? Long.fromValue(object.amount)
-      : Long.ZERO;
+    message.amount = object.amount ?? 0;
     return message;
   },
 };
@@ -250,7 +247,7 @@ export const TransactionServiceClient = makeGenericClientConstructor(
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;

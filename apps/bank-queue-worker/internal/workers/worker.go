@@ -90,7 +90,7 @@ func sendRequestToWebhook(txn server.Transaction) error {
 		return err
 	}
 
-	resp, err := http.Post("http://localhost:8080/update-server", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://localhost:8080/update-status", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Println("Error:", err)
 		return err

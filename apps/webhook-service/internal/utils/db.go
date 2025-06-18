@@ -16,8 +16,8 @@ var DbPool *pgxpool.Pool
 
 func InitDB() {
 	ctx := context.Background()
-
-	DbPool, err := pgxpool.New(ctx, os.Getenv("DATABASE_URL"))
+	var err error
+	DbPool, err = pgxpool.New(ctx, os.Getenv("DATABASE_URL"))
 	if err != nil {
 		fmt.Println("unable to create connection pool")
 		panic(err)

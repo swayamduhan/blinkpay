@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export interface PayParams {
     token : string;
-    amount : string;
+    amount : number;
 }
 
 export async function POST(req : NextRequest) {
@@ -42,6 +42,7 @@ export async function POST(req : NextRequest) {
         const res = await addTxn(requestBody)
         return NextResponse.json({ message: "Transaction added to queue!", res}, { status: 200 })
     } catch(err) {
+        console.log(err)
         return NextResponse.json({ message: "Transaction failed!", error: err }, { status: 500 })
     }
 }

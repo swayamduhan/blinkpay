@@ -1,16 +1,16 @@
 import { PayParams } from "@/app/api/pay/route";
 import axios from "axios";
 
-export async function sendPayRequest(token : string, amount : string, setLoading : any){
+export async function sendPayRequest(token : string, amount : number, setLoading : any){
     try{
         setLoading(true)
         const reqBody : PayParams = {
-            token : token,
-            amount : amount
+            token,
+            amount
         }
         await axios.post("/api/pay", reqBody)
-        alert("Payment success! Close the alert to redirect back to blinkpay")
-        window.location.href = "https://blinkpay.com"
+        alert("Payment success! Click OK in the alert to close bank window, Happy Banking :)")
+        window.close()
     } catch ( err ) {
         console.log(err)
         alert("queue backend seems down, try again later :(")

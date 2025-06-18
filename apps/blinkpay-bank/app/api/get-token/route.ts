@@ -2,11 +2,10 @@ import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 
 interface GetTokenParams {
-    amount : string
+    amount : number
 }
 
 // make the bank as a full fledged api later on, (maybe) :\
-
 
 export async function POST(req : NextRequest){
     const body : GetTokenParams = await req.json()
